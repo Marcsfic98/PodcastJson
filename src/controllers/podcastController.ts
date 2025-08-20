@@ -1,6 +1,8 @@
 import { serviceFilterEpisodes } from "../services/filterEpsodesService";
 import { serviceListEpisodes } from "../services/listEpisodesService";
 import {IncomingMessage , ServerResponse} from "http"
+import { StatusCode } from "../utils/httpStatusCode";
+import { ContentType } from "../utils/contentType";
 
 export const getListEpisodes =  async (request:IncomingMessage , response:ServerResponse) => {
 
@@ -8,16 +10,16 @@ export const getListEpisodes =  async (request:IncomingMessage , response:Server
 
     const content = await serviceListEpisodes()
 
-    response.writeHead(200,{'content-type':"application/json"});
+    response.writeHead(StatusCode.OK,{'content-type':ContentType.JSON});
     response.end(JSON.stringify(content));
 };
 
 export  const getFilterEpisodes = async (request:IncomingMessage , response:ServerResponse) => {
 
-       const queryString = request.url?.split("?p=")[1] || "";
+       
 
-    const content = await serviceFilterEpisodes(queryString)
+    const content = await serviceFilterEpisodes(request.url)
 
-    response.writeHead(200,{'content-type':"application/json"});
+    response.writeHead(StatusCode.OK,{'content-type':ContentType.JSON});
     response.end(JSON.stringify(content));
 }
