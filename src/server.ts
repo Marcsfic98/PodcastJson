@@ -4,13 +4,15 @@ import { getFilterEpisodes, getListEpisodes } from "./controllers/podcastControl
 const server = http.createServer(
     async (request:http.IncomingMessage, response:http.ServerResponse)=>{
 
-    if(request.method === "GET" && request.url === "/api/list"){
-        await getListEpisodes(request , response)
-    }
+        const [baseUrl , queryString] = request.url?.split("?")??["" , ""];
 
-    if(request.method === "GET" && request.url === "/api/episode"){
-        await getFilterEpisodes(request , response)
-    }
+        if(request.method === "GET" && baseUrl === "/api/list"){
+            await getListEpisodes(request , response)
+        }
+
+        if(request.method === "GET" && baseUrl === "/api/episode"){
+            await getFilterEpisodes(request , response)
+        }
 })
 
 const port = process.env.PORT
