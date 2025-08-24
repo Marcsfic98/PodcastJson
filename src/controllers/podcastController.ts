@@ -9,6 +9,7 @@ export const getListEpisodes =  async (request:IncomingMessage , response:Server
  
 
     const content = await serviceListEpisodes()
+    
 
     response.writeHead(StatusCode.OK,{'content-type':ContentType.JSON});
     response.end(JSON.stringify(content));
